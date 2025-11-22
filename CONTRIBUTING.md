@@ -35,7 +35,7 @@ These steps assume you have Python 3.10+ installed and git installed
 2. **Clone your fork**:
 
    ```bash
-   git clone https://github.com/<your-username>/critic.git
+   git clone https://github.com/<your-username>/critic-py.git
    cd critic
    ```
 
