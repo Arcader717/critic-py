@@ -64,7 +64,7 @@ def main(argv=None) -> int:
         if args.demo:
             if css:
                 for file in io.files("css"):
-                    printing.cli("Minified " + file)
+                    printing.cli("Minified " + file + " (demo)")
             cli.exit()
         elif args.list_patterns:
             if css:

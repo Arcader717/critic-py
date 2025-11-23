@@ -42,19 +42,23 @@ So if your project directory looks similar to:
    ├── leave_me_alone.css
    └── app.py
 
-Then the default pattern might not be specific enough for you. You can remove the default, then add a new one that's more specific
+Then the default pattern might not be specific enough for you. You can remove the default, then add a new one that's more specific.
+
+.. note::
+
+   I'd highly recommend using the ``-d`` or ``--demo`` option when you're unsure what files could be affected by minifying
 
 .. termynal::
 
    $ critic minify -d css
-   Minified static/styles/app.css
-   Minified leave_me_alone.css
+   Minified static/styles/app.css (demo)
+   Minified leave_me_alone.css (demo)
    $ critic minify -p **/*.css
    Dropped pattern '**/*.css' from css patterns
    $ critic minify +p static/styles/*.css
    Added pattern 'static/styles/*.css'
    $ critic minify -d css
-   Minified static/styles/app.css
+   Minified static/styles/app.css (demo)
 
 And viola (lol), problem solved.
 
