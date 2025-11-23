@@ -1,0 +1,74 @@
+import argparse
+
+from .core import parse, parser
+from .util import printing
+from .util import io
+from .util.conf import config
+
+cli = argparse.ArgumentParser(
+    "critic",
+    description="A neat pure-python tool to prepare your static files for deployment"
+)
+
+logs = cli.add_mutually_exclusive_group()
+logs.add_argument("-v", "--verbose", action="store_true", help="Increase output")
+logs.add_argument("-q", "--quiet", action="store_true", help="Silence all output")
+subs = cli.add_subparsers(dest="command")
+
+mini = subs.add_parser("minify", prefix_chars="-+", help="Minify your files")
+mini.add_argument("type", choices=["css", "all"], default="all", nargs="?", help="The file type to use", metavar="file type")
+mini.add_argument("-d", "--demo", action="store_true")
+mini.add_argument("-l", "--list-patterns", action="store_true")
+mini.add_argument("+p", "+pattern", action="extend", nargs="+", type=lambda x: ("+", x))
+mini.add_argument("-p", "-pattern", action="extend", nargs="+", type=lambda x: ("-", x))
+
+args = cli.parse_args()
+
+if args.verbose:
+    config["verbose"] = True
+if args.quiet:
+    config["quiet"] = True
+
+print(args)
+
+min: bool = args.command == "minify"
+
+if min:
+    ft: str = args.type.lower()
+    css: bool = ft in ["css", "all"]
+    if args.demo:
+        if css:
+            for file in io.files("css"):
+                printing.cli("Minified " + file)
+        cli.exit()
+    elif args.list_patterns:
+        patterns = []
+        if css:
+            for pattern in io.get_patterns("css"):
+                printing.cli("CSS: " + pattern)
+        cli.exit()
+    elif args.p:
+        dynamic_file_type = False
+        if ft == "all":
+            dynamic_file_type = True
+        for pattern in args.p:
+            if dynamic_file_type:
+                ft = pattern[1].rsplit(".", 1)[1]
+                if ft not in ["css"]:
+                    raise TypeError(f"The pattern '{pattern[1]}' is not a valid language (one of 'css')")
+            if pattern[0] == "+":
+                io.add_pattern(ft, pattern[1])
+                printing.cli(f"Added pattern '{pattern[1]}' from {ft} patterns")
+            elif pattern[0] == "-":
+                io.drop_pattern(ft, pattern[1])
+                printing.cli(f"Dropped pattern '{pattern[1]}' from {ft} patterns")
+            cli.exit()
+    else:
+        if css and config.get("css"):
+            parse("css")
+        cli.exit()
+
+print(cli.format_help())
+
+cli.exit()
+        
