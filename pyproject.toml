@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "critic"
-version = "0.0.4"
+version = "0.0.1"
 description = "A neat pure-python tool to prepare your static files for deployment"
 requires-python = ">=3.9"
 readme = "README.md"
@@ -36,6 +36,7 @@ keywords = [
 
 [project.urls]
 Homepage = "https://github.com/Arcader717/critic-py"
+Documentation = "https://critic-py.readthedocs.io/en/latest/"
 Repository = "https://github.com/Arcader717/critic-py.git"
 Issues = "https://github.com/Arcader717/critic-py/issues"
 Changelog = "https://github.com/Arcader717/critic-py/blob/main/CHANGELOG.md"
