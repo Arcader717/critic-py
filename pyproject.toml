@@ -49,7 +49,7 @@ dev = [
 ]
 
 [project.scripts]
-critic = "critic:cli"
+critic = "critic.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }
