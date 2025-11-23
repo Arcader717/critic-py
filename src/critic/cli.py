@@ -1,6 +1,6 @@
 import argparse
 
-from .core import parse, parser
+from .core import parse
 from .util import printing
 from .util import io
 from .util.conf import config
@@ -71,4 +71,3 @@ if min:
 print(cli.format_help())
 
 cli.exit()
-        

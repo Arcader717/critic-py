@@ -37,7 +37,6 @@ keywords = [
 
 [project.urls]
 Homepage = "https://github.com/Arcader717/critic-py"
-Documentation = "https://"
 Repository = "https://github.com/Arcader717/critic-py.git"
 Issues = "https://github.com/Arcader717/critic-py/issues"
 Changelog = "https://github.com/Arcader717/critic-py/blob/main/CHANGELOG.md"

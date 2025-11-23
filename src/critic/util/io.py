@@ -36,6 +36,7 @@ def add_pattern(file_type: str, pattern: str) -> None:
         raise ValueError("File type must be one of 'css'")
     with open(pattern_directory + file_type.lower() + ".txt", "a") as f:
         f.write(pattern + "\n")
+        printing.cli(f"Added pattern '{pattern}' from {file_type}")
 
 def drop_pattern(file_type: str, pattern: str) -> None:
     with open(pattern_directory + file_type.lower() + ".txt", "r") as f:
@@ -46,5 +47,5 @@ def drop_pattern(file_type: str, pattern: str) -> None:
             break
     with open(pattern_directory + file_type.lower() + ".txt", "w") as f:
         f.writelines(data)
-        printing.cli("Removed pattern ")
+        printing.cli(f"Removed pattern '{pattern}' from {file_type} patterns")
     

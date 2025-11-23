@@ -1,7 +1,5 @@
 import re
-import glob
 from typing import Iterable
-from html.parser import HTMLParser
 
 from ..util import io, printing
 
