@@ -141,31 +141,26 @@ Great ideas are welcome, so please open an issue describing:
 ```
 critic-py
 ├── src
-│   ├── critic
-│   │   ├── utils
-│   │   │   ├── conf.py
-│   │   │   ├── io.py
-│   │   │   ├── other.py
-│   │   │   └── defaults.toml
-│   │   ├── langs
-│   │   │   ├── __init__.py
-│   │   │   ├── html.py
-│   │   │   ├── css.py
-│   │   │   └── js.py
-│   │   ├── patterns
-│   │   │   ├── html.txt
-│   │   │   ├── css.txt
-│   │   │   └── js.txt
-│   │   ├── exceptions
-│   │   │   ├── warnings.py
-│   │   │   └── errors.py
-│   │   ├── __init__.py
-│   │   └── cli.py
-│   └── pyproject.toml
+│   └── critic
+│       ├── util
+│       │   ├── conf.py
+|       |   ├── defaults.toml
+│       │   ├── io.py
+│       │   └── printing.py
+|       ├── core
+|       |   ├── __init__.py
+|       |   ├── parser.py
+│       |   └── patterns
+│       │       └── js.txt
+|       ├── errors.py
+│       ├── __init__.py
+│       └── cli.py
 ├── tests/
 ├── docs/
 ├── README.md
 ├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── pyproject.toml
 └── LICENSE
 ```
 

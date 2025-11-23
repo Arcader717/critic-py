@@ -14,14 +14,16 @@ use a package manager like [pip](https://pip.pypa.io/en/stable) to install criti
 This assumes you have `pip`, if not you can check out [a guide by python](https://packaging.python.org/en/latest/tutorials/installing-packages/) for installing `pip` onto your machine
 
 ```bash
-pip install critic
+pip install critic-py
 ```
 
-Also, this is a package that relies only on the 
+Also, this is a package that relies only on the python stdlib, so no need to worry about extensive dependencies!
 
 ## Usage
 
-Currently, you can only minify CSS, and even then, it's lacking a lot of features. But, it handles nested CSS! And I love nested CSS :heart:
+Currently, you can only minify CSS, and even then, it's lacking a lot of features. But, it handles nested CS, and I love nested CSS! :heart:
+
+To use it, just type in:
 
 ```bash
 critic minify css
@@ -37,7 +39,22 @@ but I can at least get disappointed in myself when I add yet another feature out
 - [ ] CSS Minification
   - [x] Remove comments
   - [x] Remove unnecessary whitespace
-  - [ ] 
+  - [ ] Combining duplicate rules
+  - [ ] Combining selectors with duplicate declarations
+  - [ ] Leading zeros, and trailing units (for things like `0.5px` to `.5px`, and `0px` to `0` respectively)
+- [ ] Documentation
+- [ ] Tests for the CLI (With pytest!)
+- [ ] HTML Parser
+- [ ] HTML Minification
+  - [ ] Remove Comments
+  - [ ] Remove unnecessary whitespace
+  - [ ] Others I haven't thought of yet
+- [ ] JS Parsser
+- [ ] JS Minification
+  - [ ] JS Mangling
+  - [ ] Sourcemaps
+  - [ ] Remove unnecessary whitespace
+  - [ ] Insert semicolons where needed to prevent JS Automatic Semicolon Insertion
 
 ## Contributing
 
@@ -49,4 +66,3 @@ Also, update tests as appropriate
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
