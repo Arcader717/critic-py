@@ -29,8 +29,6 @@ if args.verbose:
 if args.quiet:
     config["quiet"] = True
 
-print(args)
-
 min: bool = args.command == "minify"
 
 if min:
@@ -58,10 +56,8 @@ if min:
                     raise TypeError(f"The pattern '{pattern[1]}' is not a valid language (one of 'css')")
             if pattern[0] == "+":
                 io.add_pattern(ft, pattern[1])
-                printing.cli(f"Added pattern '{pattern[1]}' from {ft} patterns")
             elif pattern[0] == "-":
                 io.drop_pattern(ft, pattern[1])
-                printing.cli(f"Dropped pattern '{pattern[1]}' from {ft} patterns")
             cli.exit()
     else:
         if css and config.get("css"):

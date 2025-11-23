@@ -1,12 +1,63 @@
 import os
 import glob
 import tomllib
-from importlib import util
 from typing import Any
+from pathlib import Path
+from importlib import util
+from importlib.resources import files
+
+APP_NAME = "critic"
 
 BConfVals = str|int|bool
 
 ConfDict = dict[str, BConfVals|dict[str, BConfVals|dict[str, BConfVals|dict[str, BConfVals]]]]
+
+
+def get_config_dir() -> Path:
+    home = Path.home()
+    if os.system == "nt":
+        base = os.getenv("APPDATA")
+        if base:
+            return Path(base) / APP_NAME
+        return home / "AppData" / "Local" / APP_NAME
+    if os.system == "darwin":
+        return home / "Library" / "Application Support" / APP_NAME
+    xdg = os.getenv("XDG_CONFIG_HOME")
+    if xdg:
+        return Path(xdg) / APP_NAME
+    return home / ".config" / APP_NAME
+
+CONFIG_DIR = get_config_dir()
+PATTERNS_DIR = CONFIG_DIR / "patterns"
+
+def ensure_user_patterns() -> None:
+    PATTERNS_DIR.mkdir(parents=True, exist_ok=True)
+    defaults_dir = files("critic.core") / "patterns"
+    for entry in defaults_dir.iterdir():
+        if entry.name.endswith(".txt"):
+            target = PATTERNS_DIR / entry.name
+            if not target.exists():
+                text = entry.read_text(encoding="utf-8")
+                target.write_text(text, encoding="utf-8")
+
+def _parse_lines(text: str) -> list[str]:
+    return [line.strip() for line in text.splitlines() if line.strip()]
+
+def get_patterns(file_type: str) -> list[str]:
+    if file_type.lower() not in ["css"]:
+        raise ValueError("The file type must be one of 'css'")
+    user_file = PATTERNS_DIR / (file_type + ".txt")
+    if user_file.exists():
+        return _parse_lines(user_file.read_text(encoding="utf-8")) # Continue here
+    
+    default_file = files("critic.core") / "patterns" / (file_type + ".txt")
+    return _parse_lines(default_file.read_text(encoding="utf-8"))
+
+def save_patterns(file_type: str, patterns: list[str]) -> None:
+    PATTERNS_DIR.mkdir(parents=True, exist_ok=True)
+    path = PATTERNS_DIR / (file_type + ".txt")
+    text = "\n".join(patterns) + "\n"
+    path.write_text(text, encoding="utf-8")
 
 def test_deps() -> tuple[bool, bool]:
     numpy: bool = util.find_spec("numpy") is not None

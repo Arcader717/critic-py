@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "critic"
-version = "0.0.1"
+version = "0.0.4"
 description = "A neat pure-python tool to prepare your static files for deployment"
 requires-python = ">=3.9"
 readme = "README.md"
@@ -13,7 +13,6 @@ classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Console",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.9",
@@ -46,8 +45,7 @@ dev = [
     "pytest",
     "ruff",
     "black",
-    "mypy",
-    "tox"
+    "mypy"
 ]
 
 [project.scripts]
@@ -58,3 +56,9 @@ package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"critic" = [
+    "core/patterns/*.txt",
+    "util/defaults.toml"
+]
