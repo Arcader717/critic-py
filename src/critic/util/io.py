@@ -1,9 +1,9 @@
-import os
 import glob
 import warnings
 from importlib.resources import files as pfiles
 
 from . import printing
+from .conf import get_patterns, save_patterns
 from ..errors import UnsupportedGlobPatternWarning
 
 pattern_directory = pfiles("critic") / "core" / "patterns"
@@ -19,13 +19,8 @@ def files(file_type: str) -> list[str]:
         patterns.extend(f)
     return patterns
 
-def get_patterns(file_type: str) -> list[str]:
-    if file_type.lower() not in ["css"]:
-        raise ValueError("The file type must be one of 'css'")
-    data = _PATS[file_type]
-    return [line.strip() for line in data if line.strip()]
-
 def add_pattern(file_type: str, pattern: str) -> None:
+    file_type = file_type.lower()
     if pattern.startswith("~"):
         warnings.warn("Glob patterns starting with tilde expansion (starts with '~') are not supported and may cause unexpected behavior", UnsupportedGlobPatternWarning)
     if "{" in pattern or "}" in pattern:
@@ -36,20 +31,19 @@ def add_pattern(file_type: str, pattern: str) -> None:
         warnings.warn("Patterns containing parent directory references ('..') are not supported and may cause unexpected behavior", UnsupportedGlobPatternWarning)
     if "!" in pattern:
         warnings.warn("Patterns containing negations ('!') have iffy support in python and may cause unexpected behavior", UnsupportedGlobPatternWarning)
-    if file_type.lower() not in ["css"]:
+    if file_type not in ["css"]:
         raise ValueError("File type must be one of 'css'")
-    with open(pattern_directory + file_type.lower() + ".txt", "a") as f:
-        f.write(pattern + "\n")
-        printing.cli(f"Added pattern '{pattern}' from {file_type}")
+    patterns = get_patterns(file_type)
+    patterns.append(pattern)
+    save_patterns(file_type, patterns)
+    printing.cli(f"Added pattern '{pattern}' from {file_type}")
 
 def drop_pattern(file_type: str, pattern: str) -> None:
-    with open(pattern_directory + file_type.lower() + ".txt", "r") as f:
-        data = f.readlines()
-    for line in data:
+    patterns = get_patterns(file_type)
+    for line in patterns:
         if line.strip() == pattern:
-            data.remove(line)
+            patterns.remove(line)
             break
-    with open(pattern_directory + file_type.lower() + ".txt", "w") as f:
-        f.writelines(data)
-        printing.cli(f"Removed pattern '{pattern}' from {file_type} patterns")
+    save_patterns(file_type, patterns)
+    printing.cli(f"Removed pattern '{pattern}' from {file_type} patterns")
     

@@ -43,10 +43,21 @@ def ensure_user_patterns() -> None:
 def _parse_lines(text: str) -> list[str]:
     return [line.strip() for line in text.splitlines() if line.strip()]
 
-def load_patterns(name: str) -> list[str]:
-    user_file = PATTERNS_DIR / name
+def get_patterns(file_type: str) -> list[str]:
+    if file_type.lower() not in ["css"]:
+        raise ValueError("The file type must be one of 'css'")
+    user_file = PATTERNS_DIR / (file_type + ".txt")
     if user_file.exists():
         return _parse_lines(user_file.read_text(encoding="utf-8")) # Continue here
+    
+    default_file = files("critic.core") / "patterns" / (file_type + ".txt")
+    return _parse_lines(default_file.read_text(encoding="utf-8"))
+
+def save_patterns(file_type: str, patterns: list[str]) -> None:
+    PATTERNS_DIR.mkdir(parents=True, exist_ok=True)
+    path = PATTERNS_DIR / (file_type + ".txt")
+    text = "\n".join(patterns) + "\n"
+    path.write_text(text, encoding="utf-8")
 
 def test_deps() -> tuple[bool, bool]:
     numpy: bool = util.find_spec("numpy") is not None

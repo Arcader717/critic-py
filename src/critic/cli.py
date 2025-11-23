@@ -29,8 +29,6 @@ if args.verbose:
 if args.quiet:
     config["quiet"] = True
 
-print(args)
-
 min: bool = args.command == "minify"
 
 if min:
