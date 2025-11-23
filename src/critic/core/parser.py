@@ -68,12 +68,12 @@ class CSSParser:
             i += 1
         data: dict[str, dict[str, str]] = {}
         for selector, properties in rules.items():
-            props = properties.split(";")
+            props = properties.split(";", 1)
             data[selector] = {}
             for prop in props:
                 if prop == "":
                     continue
-                key, value = prop.split(":")
+                key, value = prop.split(":", 1)
                 data[selector.strip()][key.strip()] = value.strip()
         self.data = data
         return data
@@ -106,7 +106,7 @@ def parse(file_type: str, write: bool = True) -> None:
             if file_type == "css":
                 parser = CSSParser()
                 data = parser.feed(data)
-                printing.cli(f"Parsed and minified [bold #639]{file}[/bold #639]")
+                printing.cli(f"Parsed and minified {file}")
             else:
                 raise ValueError(f"Language '{file_type}' is not supported")
             if write:
