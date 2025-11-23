@@ -36,7 +36,7 @@ def add_pattern(file_type: str, pattern: str) -> None:
     patterns = get_patterns(file_type)
     patterns.append(pattern)
     save_patterns(file_type, patterns)
-    printing.cli(f"Added pattern '{pattern}' from {file_type}")
+    printing.cli(f"Added pattern '{pattern}' to {file_type}")
 
 def drop_pattern(file_type: str, pattern: str) -> None:
     patterns = get_patterns(file_type)
