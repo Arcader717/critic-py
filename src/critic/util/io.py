@@ -1,11 +1,16 @@
 import os
 import glob
 import warnings
+from importlib.resources import files as pfiles
 
 from . import printing
 from ..errors import UnsupportedGlobPatternWarning
 
-pattern_directory = os.path.join(os.path.dirname(__file__), "..", "patterns")
+pattern_directory = pfiles("critic") / "core" / "patterns"
+
+_PATS = {
+    "css": (pattern_directory / "css.txt").read_text(encoding="utf-8").splitlines()
+}
 
 def files(file_type: str) -> list[str]:
     patterns: list[str] = []
@@ -17,9 +22,8 @@ def files(file_type: str) -> list[str]:
 def get_patterns(file_type: str) -> list[str]:
     if file_type.lower() not in ["css"]:
         raise ValueError("The file type must be one of 'css'")
-    with open(os.path.join(pattern_directory, file_type.lower() + ".txt"), "r") as f:
-        data = f.readlines()
-    return [line.strip() for line in data]
+    data = _PATS[file_type]
+    return [line.strip() for line in data if line.strip()]
 
 def add_pattern(file_type: str, pattern: str) -> None:
     if pattern.startswith("~"):
