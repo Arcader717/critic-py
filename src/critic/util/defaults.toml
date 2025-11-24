@@ -2,9 +2,6 @@ quiet = false
 verbose = false
 css = true
 
-[parse]
-static_root = ""
-
 [parse.css]
 zero_units = false
 leading_zeros = false

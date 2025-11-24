@@ -16,6 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     logs = cli.add_mutually_exclusive_group()
     logs.add_argument("-v", "--verbose", action="store_true", help="Increase output")
     logs.add_argument("-q", "--quiet", action="store_true", help="Silence all output")
+    cli.add_argument("--preview", action="store_true", help=argparse.SUPPRESS)
     
     subs = cli.add_subparsers(dest="command")
 
@@ -49,14 +50,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     return cli
 
-def main(argv=None) -> int:
+def main(argv: list[str]|None = None) -> int:
     cli = build_parser()
     args = cli.parse_args(argv)
 
     if getattr(args, "version", False):
-        print(f"critic-py {__version__}")
+        printing.cli(f"critic-py {__version__}")
         cli.exit()
 
+    if getattr(args, "preview", False):
+        config["preview"] = True
+        printing.cli(repr(args))
+        cli.exit()
     if getattr(args, "verbose", False):
         config["verbose"] = True
     if getattr(args, "quiet", False):

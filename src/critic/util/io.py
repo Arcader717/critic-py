@@ -21,7 +21,7 @@ def files(file_type: str) -> list[str]:
 
 def add_pattern(file_type: str, pattern: str) -> None:
     file_type = file_type.lower()
-    if pattern.startswith("~"):
+    if "~" in pattern:
         warnings.warn("Glob patterns starting with tilde expansion (starts with '~') are not supported and may cause unexpected behavior", UnsupportedGlobPatternWarning)
     if "{" in pattern or "}" in pattern:
         warnings.warn("Glob patterns containing brace expansion ('{' or '}') are not supported and may cause unexpected behavior", UnsupportedGlobPatternWarning)

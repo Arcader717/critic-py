@@ -42,7 +42,7 @@ but I can at least get disappointed in myself when I add yet another feature out
   - [ ] Combining duplicate rules
   - [ ] Combining selectors with duplicate declarations
   - [ ] Leading zeros, and trailing units (for things like `0.5px` to `.5px`, and `0px` to `0` respectively)
-- [ ] Documentation
+- [x] Documentation
 - [ ] Tests for the CLI (With pytest!)
 - [ ] HTML Parser
 - [ ] HTML Minification
