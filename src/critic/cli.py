@@ -1,5 +1,6 @@
 import argparse
 
+from . import __version__
 from .core import parse
 from .util import printing
 from .util import io
@@ -11,10 +12,11 @@ def build_parser() -> argparse.ArgumentParser:
         "critic",
         description="A neat pure-python tool to prepare your static files for deployment"
     )
-
+    cli.add_argument("--version", action="store_true", help="Get the current version")
     logs = cli.add_mutually_exclusive_group()
     logs.add_argument("-v", "--verbose", action="store_true", help="Increase output")
     logs.add_argument("-q", "--quiet", action="store_true", help="Silence all output")
+    
     subs = cli.add_subparsers(dest="command")
 
     mini = subs.add_parser("minify", prefix_chars="-+", help="Minify your files")
@@ -50,6 +52,10 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv=None) -> int:
     cli = build_parser()
     args = cli.parse_args(argv)
+
+    if getattr(args, "version", False):
+        print(f"critic-py {__version__}")
+        cli.exit()
 
     if getattr(args, "verbose", False):
         config["verbose"] = True
