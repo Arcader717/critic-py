@@ -23,10 +23,12 @@ class CSSParser:
             if c in "{}":
                 if buffer.strip():
                     tokens.append(("text", buffer.strip()))
+                    print(buffer.strip())
                     buffer = ""
                 tokens.append(("brace", c))
             else:
                 buffer += c
+            
         if buffer.strip():
             tokens.append(("text", buffer.strip()))
 
